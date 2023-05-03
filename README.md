@@ -1,1 +1,1 @@
-CI 
+CI [![Build status](https://ci.appveyor.com/api/projects/status/wmr4d1hle2dm4shh?svg=true)](https://ci.appveyor.com/project/IvanKorolev13/deliverycardorder)
