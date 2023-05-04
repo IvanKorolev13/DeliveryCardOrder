@@ -1,8 +1,8 @@
 package ru.netology;
 
+import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -37,9 +37,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -57,9 +57,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -78,9 +78,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -99,9 +99,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -119,9 +119,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -140,9 +140,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -161,9 +161,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -182,9 +182,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -202,9 +202,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -223,9 +223,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -244,9 +244,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -264,9 +264,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -284,9 +284,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -305,9 +305,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -326,9 +326,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -347,9 +347,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -368,9 +368,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -389,9 +389,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -410,9 +410,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -431,9 +431,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -452,9 +452,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -473,9 +473,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -494,9 +494,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
@@ -515,9 +515,9 @@ public class DeliveryCardOrderTest {
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(city);
-        WebElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
 
@@ -536,40 +536,40 @@ public class DeliveryCardOrderTest {
         String phone = "+12345678901";
 
         open("http://localhost:9999/");
-        WebElement cityInput = $("span[data-test-id='city'] input");
-        WebElement dateInput = $("span[data-test-id='date'] input");
-        WebElement nameInput = $("span[data-test-id='name'] input");
-        WebElement phoneInput = $("span[data-test-id='phone'] input");
-        WebElement agreementCheckbox = $("label[data-test-id='agreement']");
-        WebElement buttonOK = $x("//span[@class='button__text']/../../../button");
+        SelenideElement cityInput = $("span[data-test-id='city'] input");
+        SelenideElement dateInput = $("span[data-test-id='date'] input");
+        SelenideElement nameInput = $("span[data-test-id='name'] input");
+        SelenideElement phoneInput = $("span[data-test-id='phone'] input");
+        SelenideElement agreementCheckbox = $("label[data-test-id='agreement']");
+        SelenideElement buttonOK = $x("//span[@class='button__text']/../../../button");
 
-        cityInput.sendKeys(city + "@");
+        cityInput.setValue(city + "@");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
         String incorrectDate = changeCurrentDateByDays(-1);
-        dateInput.sendKeys(incorrectDate);
-        nameInput.sendKeys(personFullName + "W");
-        phoneInput.sendKeys(phone + "2");
+        dateInput.setValue(incorrectDate);
+        nameInput.setValue(personFullName + "W");
+        phoneInput.setValue(phone + "2");
         buttonOK.click();
         $x("//span[@data-test-id='city'][contains(@class, 'input_invalid')]").should(appear);
 
         cityInput.clear();
         cityInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        cityInput.sendKeys(city);
+        cityInput.setValue(city);
         buttonOK.click();
         $x("//span[@data-test-id='date']//span[contains(@class, 'input_invalid')]").should(appear);
 
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        dateInput.sendKeys(deliveryDate);
+        dateInput.setValue(deliveryDate);
         buttonOK.click();
         $x("//span[@data-test-id='name'][contains(@class, 'input_invalid')]").should(appear);
 
         nameInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        nameInput.sendKeys(personFullName);
+        nameInput.setValue(personFullName);
         buttonOK.click();
         $x("//span[@data-test-id='phone'][contains(@class, 'input_invalid')]").should(appear);
 
         phoneInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        phoneInput.sendKeys(phone);
+        phoneInput.setValue(phone);
         buttonOK.click();
         $x("//label[@data-test-id='agreement'][contains(@class, 'input_invalid')]").should(appear);
 
