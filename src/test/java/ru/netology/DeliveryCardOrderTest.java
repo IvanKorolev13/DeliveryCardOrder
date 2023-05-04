@@ -7,12 +7,14 @@ import org.openqa.selenium.Keys;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.$;
+import static java.lang.Integer.parseInt;
 
 public class DeliveryCardOrderTest {
 
@@ -20,6 +22,23 @@ public class DeliveryCardOrderTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
         LocalDate newDate = LocalDate.now().plusDays(days);
         return newDate.format(formatter);
+    }
+
+    private HashMap<String, String> changeCurrentDateByDaysMap(int days) {
+        DateTimeFormatter formatterDay = DateTimeFormatter.ofPattern("dd");
+        DateTimeFormatter formatterMonth = DateTimeFormatter.ofPattern("MMM");
+        DateTimeFormatter formatterMonthD = DateTimeFormatter.ofPattern("MM");
+        DateTimeFormatter formatterYear = DateTimeFormatter.ofPattern("yyyy");
+
+        LocalDate newDate = LocalDate.now().plusDays(days);
+
+        HashMap<String, String> result = new HashMap<>();
+        result.put("day", newDate.format(formatterDay));
+        result.put("month", newDate.format(formatterMonth));
+        result.put("monthDigit", newDate.format(formatterMonthD));
+        result.put("year", newDate.format(formatterYear));
+
+        return result;
     }
 
     String errorMessageEmptyField = "обязательно для заполнения";
@@ -40,6 +59,56 @@ public class DeliveryCardOrderTest {
         SelenideElement dateInput = $("span[data-test-id='date'] input");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
         dateInput.setValue(deliveryDate);
+        $("span[data-test-id='name'] input").setValue(personFullName);
+        $("span[data-test-id='phone'] input").setValue(phone);
+        $("label[data-test-id='agreement']").click();
+        $x("//span[@class='button__text']/../../../button").click();
+
+        $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
+    }
+
+    @Test
+    public void testValidDataListChose() {
+        String city = "Нальчик";
+        String cityShot = "На";
+        String personFullName = "Петров-Сидоров Петя";
+        String phone = "+12345678901";
+
+        HashMap<String, String> deliveryData = changeCurrentDateByDaysMap(180);
+        String deliveryDay = deliveryData.get("day");
+        int deliveryMonthDigit = parseInt(deliveryData.get("monthDigit"));
+        int deliveryYear = parseInt(deliveryData.get("year"));
+
+        HashMap<String,String> currentData = changeCurrentDateByDaysMap(0);
+        int currentMonthDigit = parseInt(currentData.get("monthDigit"));
+        String currentMonthStr = currentData.get("month");
+
+        open("http://localhost:9999/");
+        $("span[data-test-id='city'] input").setValue(cityShot);
+        $x("//span[text()='" + city + "']/..").click();
+        SelenideElement dateInput =
+                $x("//button[@class='icon-button icon-button_size_m icon-button_theme_alfa-on-white']");
+        dateInput.click();
+
+        String[] monthYear = $("div.calendar__name").text().split(" ", 2);
+        String calendarMonthStr = monthYear[0].toLowerCase();
+        int calendarYear = parseInt(monthYear[1]);
+
+        while (calendarYear < deliveryYear) {
+            $x("//div[@class='calendar__arrow calendar__arrow_direction_right calendar__arrow_double']")
+                    .click();
+            calendarYear++;
+        }
+        while (currentMonthDigit < deliveryMonthDigit) {
+            $x("//div[@class='calendar__arrow calendar__arrow_direction_right']").click();
+            currentMonthDigit++;
+        }
+        while (currentMonthDigit > deliveryMonthDigit) {
+            $x("//div[@class='calendar__arrow calendar__arrow_direction_left']").click();
+            currentMonthDigit--;
+        }
+        $x("//td[text()='" + deliveryDay + "']").click();
+
         $("span[data-test-id='name'] input").setValue(personFullName);
         $("span[data-test-id='phone'] input").setValue(phone);
         $("label[data-test-id='agreement']").click();
