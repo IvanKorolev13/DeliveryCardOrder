@@ -66,7 +66,8 @@ public class DeliveryCardOrderTest {
 
         $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
     }
-
+/*
+//еще сырой тест
     @Test
     public void testValidDataListChose() {
         String city = "Нальчик";
@@ -116,7 +117,7 @@ public class DeliveryCardOrderTest {
 
         $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
     }
-
+*/
     @Test
     public void testInvalidCity() {
         String city = "Нью Йорк";
