@@ -25,7 +25,7 @@ public class DeliveryCardOrderTest {
     }
 
     private HashMap<String, String> changeCurrentDateByDaysMap(int days) {
-        DateTimeFormatter formatterDay = DateTimeFormatter.ofPattern("dd");
+        DateTimeFormatter formatterDay = DateTimeFormatter.ofPattern("d");
         DateTimeFormatter formatterMonth = DateTimeFormatter.ofPattern("MMM");
         DateTimeFormatter formatterMonthD = DateTimeFormatter.ofPattern("MM");
         DateTimeFormatter formatterYear = DateTimeFormatter.ofPattern("yyyy");
@@ -66,10 +66,9 @@ public class DeliveryCardOrderTest {
 
         $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
     }
-/*
-//еще сырой тест
+
     @Test
-    public void testValidDataListChose() {
+    public void testValidDataListChoice() {
         String city = "Нальчик";
         String cityShot = "На";
         String personFullName = "Петров-Сидоров Петя";
@@ -117,7 +116,7 @@ public class DeliveryCardOrderTest {
 
         $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
     }
-*/
+
     @Test
     public void testInvalidCity() {
         String city = "Нью Йорк";
