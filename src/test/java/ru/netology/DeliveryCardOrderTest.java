@@ -1,5 +1,6 @@
 package ru.netology;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
@@ -7,38 +8,16 @@ import org.openqa.selenium.Keys;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.$;
 import static java.lang.Integer.parseInt;
 
 public class DeliveryCardOrderTest {
 
-    private String changeCurrentDateByDays(int days) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
-        LocalDate newDate = LocalDate.now().plusDays(days);
-        return newDate.format(formatter);
-    }
-
-    private HashMap<String, String> changeCurrentDateByDaysMap(int days) {
-        DateTimeFormatter formatterDay = DateTimeFormatter.ofPattern("d");
-        DateTimeFormatter formatterMonth = DateTimeFormatter.ofPattern("MMM");
-        DateTimeFormatter formatterMonthD = DateTimeFormatter.ofPattern("MM");
-        DateTimeFormatter formatterYear = DateTimeFormatter.ofPattern("yyyy");
-
-        LocalDate newDate = LocalDate.now().plusDays(days);
-
-        HashMap<String, String> result = new HashMap<>();
-        result.put("day", newDate.format(formatterDay));
-        result.put("month", newDate.format(formatterMonth));
-        result.put("monthDigit", newDate.format(formatterMonthD));
-        result.put("year", newDate.format(formatterYear));
-
-        return result;
+    private String changeCurrentDateByDays(int addDays, String pattern) {
+        return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
     }
 
     String errorMessageEmptyField = "обязательно для заполнения";
@@ -46,11 +25,12 @@ public class DeliveryCardOrderTest {
     String errorMessageIncorrectName = "Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы";
     String errorMessageIncorrectDate = "Заказ на выбранную дату невозможен";
     String errorMessageIncorrectPhone = "Телефон указан неверно";
+    String successMessage = "Встреча успешно забронирована на ";
 
     @Test
     public void testValidData() {
         String city = "Москва";
-        String deliveryDate = changeCurrentDateByDays(4);
+        String deliveryDate = changeCurrentDateByDays(4, "dd.MM.yyyy");
         String personFullName = "Петров-Сидоров Петя";
         String phone = "+12345678901";
 
@@ -64,7 +44,9 @@ public class DeliveryCardOrderTest {
         $("label[data-test-id='agreement']").click();
         $x("//span[@class='button__text']/../../../button").click();
 
-        $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
+        $("div.notification__content")
+                .shouldHave(Condition.text(deliveryDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -74,24 +56,21 @@ public class DeliveryCardOrderTest {
         String personFullName = "Петров-Сидоров Петя";
         String phone = "+12345678901";
 
-        HashMap<String, String> deliveryData = changeCurrentDateByDaysMap(180);
-        String deliveryDay = deliveryData.get("day");
-        int deliveryMonthDigit = parseInt(deliveryData.get("monthDigit"));
-        int deliveryYear = parseInt(deliveryData.get("year"));
+        String deliveryDate = changeCurrentDateByDays(180, "dd.MM.yyyy");
+        String deliveryDay = changeCurrentDateByDays(180, "d");
+        int deliveryMonthDigit = parseInt(changeCurrentDateByDays(180, "MM"));
+        int deliveryYear = parseInt(changeCurrentDateByDays(180, "yyyy"));
 
-        HashMap<String,String> currentData = changeCurrentDateByDaysMap(0);
-        int currentMonthDigit = parseInt(currentData.get("monthDigit"));
-        String currentMonthStr = currentData.get("month");
+        int currentMonthDigit = parseInt(changeCurrentDateByDays(0, "MM"));
 
         open("http://localhost:9999/");
         $("span[data-test-id='city'] input").setValue(cityShot);
         $x("//span[text()='" + city + "']/..").click();
         SelenideElement dateInput =
-                $x("//button[@class='icon-button icon-button_size_m icon-button_theme_alfa-on-white']");
+                $x("//span[@class='input__icon']/button");
         dateInput.click();
 
         String[] monthYear = $("div.calendar__name").text().split(" ", 2);
-        String calendarMonthStr = monthYear[0].toLowerCase();
         int calendarYear = parseInt(monthYear[1]);
 
         while (calendarYear < deliveryYear) {
@@ -114,13 +93,15 @@ public class DeliveryCardOrderTest {
         $("label[data-test-id='agreement']").click();
         $x("//span[@class='button__text']/../../../button").click();
 
-        $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
+        $("div.notification__content")
+                .shouldHave(Condition.text(successMessage + deliveryDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
     public void testInvalidCity() {
         String city = "Нью Йорк";
-        String deliveryDate = changeCurrentDateByDays(5);
+        String deliveryDate = changeCurrentDateByDays(5, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -141,7 +122,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testEmptyCityField() {
         String city = "";
-        String deliveryDate = changeCurrentDateByDays(5);
+        String deliveryDate = changeCurrentDateByDays(5, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -162,7 +143,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testValidCityInCapslock() {
         String city = "МОСКВА";
-        String deliveryDate = changeCurrentDateByDays(5);
+        String deliveryDate = changeCurrentDateByDays(5, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -176,13 +157,15 @@ public class DeliveryCardOrderTest {
         $("label[data-test-id='agreement']").click();
         $x("//span[@class='button__text']/../../../button").click();
 
-        $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
+        $("div.notification__content")
+                .shouldHave(Condition.text(successMessage + deliveryDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
     public void testLatinSymbolInCityField() {
         String city = "Moscow";
-        String deliveryDate = changeCurrentDateByDays(5);
+        String deliveryDate = changeCurrentDateByDays(5, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -203,7 +186,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testSpecSymbolInCityField() {
         String city = "Нальчик!";
-        String deliveryDate = changeCurrentDateByDays(5);
+        String deliveryDate = changeCurrentDateByDays(5, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -224,7 +207,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testCurrentDateInDateField() {
         String city = "Нижний Новгород";
-        String deliveryDate = changeCurrentDateByDays(0);
+        String deliveryDate = changeCurrentDateByDays(0, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -265,7 +248,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testPresentDateInDateField() {
         String city = "Нижний Новгород";
-        String deliveryDate = changeCurrentDateByDays(-1);
+        String deliveryDate = changeCurrentDateByDays(-1, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -286,7 +269,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testCurrentPlusTwoDaysInDateField() {
         String city = "Нижний Новгород";
-        String deliveryDate = changeCurrentDateByDays(2);
+        String deliveryDate = changeCurrentDateByDays(2, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -307,7 +290,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testCurrentPlusThreeDaysInDateField() {
         String city = "Нижний Новгород";
-        String deliveryDate = changeCurrentDateByDays(3);
+        String deliveryDate = changeCurrentDateByDays(3, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -321,13 +304,15 @@ public class DeliveryCardOrderTest {
         $("label[data-test-id='agreement']").click();
         $x("//span[@class='button__text']/../../../button").click();
 
-        $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
+        $("div.notification__content")
+                .shouldHave(Condition.text(successMessage + deliveryDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
     public void testCurrentPlusOneYearInDateField() {
         String city = "Нижний Новгород";
-        String deliveryDate = changeCurrentDateByDays(365);
+        String deliveryDate = changeCurrentDateByDays(365, "dd.MM.yyyy");
         String personFullName = "Петров Петя";
         String phone = "+12345678901";
 
@@ -341,13 +326,15 @@ public class DeliveryCardOrderTest {
         $("label[data-test-id='agreement']").click();
         $x("//span[@class='button__text']/../../../button").click();
 
-        $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
+        $("div.notification__content")
+                .shouldHave(Condition.text(successMessage + deliveryDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
     public void testLatinSymbolInNameField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(180);
+        String deliveryDate = changeCurrentDateByDays(180, "dd.MM.yyyy");
         String personFullName = "Petrov Petr";
         String phone = "+12345678901";
 
@@ -368,7 +355,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testDigitSymbolInNameField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(180);
+        String deliveryDate = changeCurrentDateByDays(180, "dd.MM.yyyy");
         String personFullName = "Петр1";
         String phone = "+12345678901";
 
@@ -389,7 +376,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testSpecSymbolInNameField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(180);
+        String deliveryDate = changeCurrentDateByDays(180, "dd.MM.yyyy");
         String personFullName = "Петр+Мария";
         String phone = "+12345678901";
 
@@ -410,7 +397,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testEmptyNameField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(180);
+        String deliveryDate = changeCurrentDateByDays(180, "dd.MM.yyyy");
         String personFullName = "";
         String phone = "+12345678901";
 
@@ -431,7 +418,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testEmptyPhoneField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(60);
+        String deliveryDate = changeCurrentDateByDays(60, "dd.MM.yyyy");
         String personFullName = "Сидоров-Иванов Петр";
         String phone = "";
 
@@ -452,7 +439,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testInputWithoutPlusInPhoneField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(60);
+        String deliveryDate = changeCurrentDateByDays(60, "dd.MM.yyyy");
         String personFullName = "Сидоров-Иванов Петр";
         String phone = "12345678901";
 
@@ -473,7 +460,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testInputLess11DigitInPhoneField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(60);
+        String deliveryDate = changeCurrentDateByDays(60, "dd.MM.yyyy");
         String personFullName = "Сидоров-Иванов Петр";
         String phone = "+1234567890";
 
@@ -494,7 +481,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testInputMore11DigitInPhoneField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(60);
+        String deliveryDate = changeCurrentDateByDays(60, "dd.MM.yyyy");
         String personFullName = "Сидоров-Иванов Петр";
         String phone = "+123456789012";
 
@@ -515,7 +502,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testInputSymbolInPhoneField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(60);
+        String deliveryDate = changeCurrentDateByDays(60, "dd.MM.yyyy");
         String personFullName = "Сидоров-Иванов Петр";
         String phone = "+1234567890A";
 
@@ -536,7 +523,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testInputWithDashInPhoneField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(60);
+        String deliveryDate = changeCurrentDateByDays(60, "dd.MM.yyyy");
         String personFullName = "Сидоров-Иванов Петр";
         String phone = "+1-234-567-89-01";
 
@@ -557,7 +544,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testInputWithBracketsInPhoneField() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(60);
+        String deliveryDate = changeCurrentDateByDays(60, "dd.MM.yyyy");
         String personFullName = "Сидоров-Иванов Петр";
         String phone = "+1(234)5678901";
 
@@ -578,7 +565,7 @@ public class DeliveryCardOrderTest {
     @Test
     public void testUncheckedAgreement() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(60);
+        String deliveryDate = changeCurrentDateByDays(60, "dd.MM.yyyy");
         String personFullName = "Сидоров-Иванов Петр";
         String phone = "+12345678901";
 
@@ -595,12 +582,10 @@ public class DeliveryCardOrderTest {
         $x("//label[@data-test-id='agreement'][contains(@class, 'input_invalid')]").should(appear);
     }
 
-    //ввести все поля невалидные, исправлять поля снизу
-
     @Test
     public void testValidationFieldsAfterCorrectingWrongInput() {
         String city = "Ханты-Мансийск";
-        String deliveryDate = changeCurrentDateByDays(70);
+        String deliveryDate = changeCurrentDateByDays(70, "dd.MM.yyyy");
         String personFullName = "Петр";
         String phone = "+12345678901";
 
@@ -614,7 +599,7 @@ public class DeliveryCardOrderTest {
 
         cityInput.setValue(city + "@");
         dateInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        String incorrectDate = changeCurrentDateByDays(-1);
+        String incorrectDate = changeCurrentDateByDays(-1, "dd.MM.yyyy");
         dateInput.setValue(incorrectDate);
         nameInput.setValue(personFullName + "W");
         phoneInput.setValue(phone + "2");
@@ -644,7 +629,9 @@ public class DeliveryCardOrderTest {
 
         agreementCheckbox.click();
         buttonOK.click();
-        $(withText("Успешно")).shouldBe(appear, Duration.ofSeconds(15));
+        $("div.notification__content")
+                .shouldHave(Condition.text(successMessage + deliveryDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
 }
